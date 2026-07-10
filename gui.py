@@ -166,14 +166,25 @@ def run_scan():
             "\n❌ DNS Lookup Failed\n"
         )
 
-    # Public IP
+    # Public IP 
     public_ip = get_public_ip()
 
     update_progress(50)
 
-    output_box.insert(
+    if public_ip:
+        output_box.insert(
         tk.END,
-        f"\n🌍 Public IP Address : {public_ip}\n"
+        f"\n🌍 Public IP Address : {public_ip['ip']}\n"
+        f"📍 Country : {public_ip['country']}\n"
+        f"🏙 City : {public_ip['city']}\n"
+        f"🗺 Region : {public_ip['region']}\n"
+        f"📡 ISP : {public_ip['isp']}\n"
+        f"🕒 Timezone : {public_ip['timezone']}\n"
+    )
+    else:
+        output_box.insert(
+        tk.END,
+        "\n❌ Unable to fetch Public IP information.\n"
     )
     # System Information
     hostname = get_hostname()

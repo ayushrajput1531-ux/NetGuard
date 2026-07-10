@@ -1,12 +1,24 @@
-import urllib.request
+import requests
+
 
 def get_public_ip():
     try:
-        public_ip = urllib.request.urlopen(
+        ip = requests.get(
             "https://api.ipify.org"
-        ).read().decode("utf8")
+        ).text
 
-        return public_ip
+        geo = requests.get(
+            f"http://ip-api.com/json/{ip}"
+        ).json()
 
-    except:
-        return "Unable to fetch Public IP"
+        return {
+            "ip": ip,
+            "country": geo.get("country", "N/A"),
+            "region": geo.get("regionName", "N/A"),
+            "city": geo.get("city", "N/A"),
+            "isp": geo.get("isp", "N/A"),
+            "timezone": geo.get("timezone", "N/A")
+        }
+
+    except Exception:
+        return None
