@@ -223,20 +223,40 @@ def run_scan():
     f"👤 Current User     : {username}\n"
 )
 
-# Wi-Fi Information
+    # Wi-Fi Information
     output_box.insert(
     tk.END,
     "\n📶 Wi-Fi Information\n\n"
 )
 
-    wifi_info = get_wifi_info() 
+    ssid, signal = get_wifi_info()
+
+    # Signal Quality
+    try:
+       strength = int(signal.replace("%", ""))
+
+       if strength >= 80:
+        quality = "🟢 Excellent"
+       elif strength >= 60:
+        quality = "🟡 Good"
+       elif strength >= 40:
+        quality = "🟠 Fair"
+       else:
+        quality = "🔴 Weak"
+
+    except:
+     quality = "Unknown"
+
     output_box.insert(
     tk.END,
-    wifi_info + "\n"
+    f"📶 WiFi Name : {ssid}\n"
+    f"📊 Signal Strength : {signal}\n"
+    f"📡 Quality : {quality}\n\n"
 )
 
     update_progress(60)
-    # Network Adapter Information
+
+ # Network Adapter Information
     output_box.insert(
     tk.END,
     "\n🌐 Network Adapter Information\n\n"
